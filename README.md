@@ -96,3 +96,70 @@ Every variable has to be **initialized** somehow before you use it:
   - This is called `short variable declarations`, e.g. `x := 100`
   - The variable is declared as type of expression on the right hand side
   - It can be only done inside a function
+
+### Basic Data Types
+
+#### Pointers
+
+A pointer is an address to some data in memory, so every variable and function is located somewhere.
+
+There are two main operators that are associated with _pointers_:
+
+- `&` returns the address of the variable or the function, whatever the name is referring to
+- `*` does the opposite of the ampersand. It returns the data at the address (`dereferencing`)
+
+```go
+  var x int = 1
+  var y int
+  var ip *int // ip is pointer to an integer
+
+  ip = &x // ip now points to x
+  y = *ip // y is now 1
+```
+
+#### New
+
+`new()` is another way to create a variable. It is a function that creates a variable (initialised to zero) and returns a pointer to the variable.
+
+```go
+  ptr := new(int)
+  *ptr = 3 // The value 3 is placed at the address specified by the variable ptr
+```
+
+#### Variable Scope
+
+The scope of a variable is the places in the code where a variable can be accessed. In Go, variable scoping is done using **blocks**.
+
+A _Block_ is a sequence of declarations and statements within matching curly brackets, `{}`, including functions definitions.
+
+There are also a hierarchy of _implicit blocks_:
+
+- _universe block_ is all Go source
+- _package block_ is all source in a package
+- _file block_ is all source in a file
+- all th code inside the _if_,_for_ and _switch_ statement
+- individual clauses in _switch_ and _select_ get a block
+
+Go is **lexically scoped** using blocks and the relationship of one block being defined inside another block. In other words, a variable is accessible from a block if the variable is declared in the same block or in a bigger block.
+
+#### Deallocating Memory
+
+A variable should be deallocated when a variable is no longer needed, so the memory space is made available. Otherwise, it will eventually run out of memory, what is called `memory leak` and pretty common in _C_.
+
+- `Stack` is an area of memory that is dedicated to function calls. Local variables are stored here and they are deallocated automatically after function completes
+- `Heap` is persistent. In compiled languages like _C_ you must deallocated the data on the heap manually. It's faster but it could also produce errors.
+
+```c
+  x = malloc(32);
+  free(x);
+```
+
+#### Garbage Collection
+
+Since it's hard to determine when a variable is no longer in use, there are some tools like **garbage collection** that is an automatic tool that deals with deallocation. This is part of interpreted languages and this is done by the interpreter such as the Java Virtual Machine in Java and the Python Interpreter in Python.
+
+This use of this tool is easy for the programmer but also slow due to the need of an interpreter.
+
+_Go_ is a compiled language which enables garbage collection. There are many ways of doing it but generally you have to keep track of the pointers to a particular object. Once all the pointers are gone, then you know that the object can be deallocated.
+
+Garbage collection in Go allows to allocate stuff on the heap and the stack itself. Although there is a downside because of the act of garbage collection does take some time, it's a pretty efficient implementation. It slows things down a little bit but it is a great advantage because it makes programming a lot easier. You don't have to go as far as using a full-on interpreter like you would in an interpreted language.
