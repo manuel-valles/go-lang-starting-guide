@@ -163,3 +163,51 @@ This use of this tool is easy for the programmer but also slow due to the need o
 _Go_ is a compiled language which enables garbage collection. There are many ways of doing it but generally you have to keep track of the pointers to a particular object. Once all the pointers are gone, then you know that the object can be deallocated.
 
 Garbage collection in Go allows to allocate stuff on the heap and the stack itself. Although there is a downside because of the act of garbage collection does take some time, it's a pretty efficient implementation. It slows things down a little bit but it is a great advantage because it makes programming a lot easier. You don't have to go as far as using a full-on interpreter like you would in an interpreted language.
+
+#### Comments and Printing
+
+- **Comments** are text for understandability, ignored by the compiler. They can be `single-line` (`// ...`) or `block` (`/* ... */`)
+- **Printing** is done using the _format_(`fmt`) package:
+  - `fmt.Printf()` or `fmt.Println()` prints a string
+  - `%s` is the conversion character for a string, e.g. `fmt.Printf("Hi %s, x)`
+
+#### Integers
+
+Although the generic integer declaration is `int`, there are different lengths and signs: `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, `uint64`. Th numbers are the number of bits that are used to represent the integer and memory, and the `u` stands for `unsigned` integers what means that the integer can get larger.
+
+#### Floating Points
+
+A floating point can be expressed using:
+
+- decimals: `var x float64 = 123.45`
+- scientific notation: `var y float64 = 1.2345e2`
+- complex numbers represented as two floats: real and imaginary `var z complex128 = complex(2,3)` <-> `2 + 3i`
+
+- `float32` will provide approximately 6 digits of precision
+- `float64` will provide approximately 15 digits of precision
+
+#### Type Conversion
+
+Most binary operations need operands of the same type, including assignments:
+
+```go
+  var x int32 = 1
+  var y int16 = 2
+  x = y // This will fail because they are two different types of integers
+```
+
+You could use the covert type with `T()` operation: `x = int32(y)`
+
+#### ASCII and Unicode
+
+Each one of the characters that you want to store in a string has to be coded according to a standardized code. **American Standard Code for Information Interchange** (_ASCII_) associates each character with an 8-bit number (0-255 characters), e.g. `'A' = 0x41`
+
+This has some limitations for many languages like Chinese. **Unicode** solves this using a 32-bit character code (2gig characters size). **UTF-8** is a subset of _Unicode_ with variable length code (from 8 to 32 bits)m where the first set of 8-bit matches _ASCII_.
+
+The default in _Go_ is _UTF-8_, and the **code point** (called `Rune` in Go) is define by _unicode_ characters.
+
+#### Strings
+
+A **String** is a sequence of arbitrary bytes represented in UTF-8 often meant to be printed. Each byte is a rune represented as a UTF-8 code point. So they are read-only. You cannot modify a string but you can make a new string that is a modified version of an existing one.
+
+**String literal** is notated by double quotes, e.g. `x := "Hi world!"`
