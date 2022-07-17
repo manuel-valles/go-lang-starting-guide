@@ -208,6 +208,143 @@ The default in _Go_ is _UTF-8_, and the **code point** (called `Rune` in Go) is 
 
 #### Strings
 
-A **String** is a sequence of arbitrary bytes represented in UTF-8 often meant to be printed. Each byte is a rune represented as a UTF-8 code point. So they are read-only. You cannot modify a string but you can make a new string that is a modified version of an existing one.
+A **string** is a sequence of arbitrary bytes represented in UTF-8 often meant to be printed. Each byte is a rune represented as a UTF-8 code point. So they are read-only. You cannot modify a string but you can make a new string that is a modified version of an existing one.
 
-**String literal** is notated by double quotes, e.g. `x := "Hi world!"`
+- **String literal** is notated by double quotes, e.g. `x := "Hi world!"`
+
+- **Unicode package** provides a set of functions that evaluates the properties of the different runes inside the strings.
+
+  - Some examples that return `true` or `false`:
+    - `IsDigit(r rune)`
+    - `IsSpace(r rune)`
+    - `IsLetter(r rune)`
+    - `IsLower(r rune)`
+    - `IsPunt(r rune)`
+  - Some functions performs conversions:
+    - `ToUpper(r rune)`
+    - `ToLower(r rune)`
+
+- **Strings package** provides a set of functions to look at the whole string and manipulate UTF-8 encoded strings
+
+  - String search functions:
+    - `Compare(a, b)` returns an integer comparing two string lexicographically: `0` if `a==b`, `-1` if `a<b` and `+1` if `a>b`
+    - `Contains(s, substr)` returns `true` if substring is inside `s`
+    - `HasPrefix(s, prefix)` returns `true` if the string `s` begins with `prefix`
+    - `Index(s, substr)` returns the index of the first instance of `substr` in `s`
+
+- **String Manipulation** provides a set of functions to return modified strings (original are immutable):
+
+  - `Replace(s, old, new, n)` returns a copy of the string `s` with the first `n` instances of `old` replaced by `new`
+  - `ToLower(s)`
+  - `ToUpper(s)`
+  - `TrimSpace(s)` returns a new string with all leading and trailing white space removed
+
+- **Strconv Package** provides a set of functions for conversions to and from string representations of basic data types
+  - `Atoi(s)` converts a string `s` to `int`
+  - `Itoa(s)` converts `int(base 10)` to `string`
+  - `FormatFloat(f, fmt, prec, bitSize)` converts floating point number to a string
+  - `ParseFloat(s, bitSize)` converts a string to a floating point number
+
+#### Constants
+
+A **constant** is an expression whose value is known at compile time, and whose type is inferred from right-hand side (`boolean`, `string`, `number`)
+
+```go
+  const x = 1.3
+  const (
+    y = 4
+    z = "Hi"
+  )
+```
+
+**iota** generates a set of related but distinct constants (must be different but the actual value is not important). It often represents a property which has several distinct possible values, e.g. days of the week. It is like an enumerated type in other languages.
+
+```go
+  type Grades int
+  const (
+    A Grades = iota // Each constant is assigned to a unique integer
+    B // The implementation starts at 1 and increments but the actual value is not important
+    C
+    D
+    F
+  )
+```
+
+#### Control Flow
+
+**Control flow** describes the order in which statements are executed inside a program. The most basic control flow is executing one statement at a time, one after the other (top-down).
+
+Control flow changes for a lot of reasons but the first one is because the programmer inserts control flow structures into their code, which changes the sequence in which the statements are executed:
+
+- _**if** statement_ is the main control flow structure, where the expression `condition` is evaluated, and the `consequent` statements are executed if the condition is `true`
+
+```go
+  if x > 5 {
+    fmt.Printf("Yep")
+  }
+```
+
+- _**for** loops_ iterates while a condition is `true`, and may have an initialization and update operation:
+
+```go
+  for i:=0; i<10; i++ {
+    fmt.Printf("hi")
+  }
+
+  j=0
+  for j<10 {
+    fmt.Printf("hello")
+    j++
+  }
+```
+
+- **_break_** exits the containing loop, and **_continue_** skips the rest of the current iteration:
+
+```go
+i := 0
+  for i<10 {
+    i++
+    if i == 3 { continue }
+    if i == 5 { break }
+    fmt.Printf("bye")
+  }
+```
+
+- **_switch_** is a multi-way if statement that may contain a `tag` which is a variable to be compared to a constant defined in each `case`. The case that matches is executed. _NOTE_: You do not need a `break` in each case, it automatically breaks.
+
+```go
+  switch x {
+    case 1:
+      fmt.Printf("case 1")
+    case 2:
+      fmt.Printf("case 2")
+    default:
+      fmt.Printf("no case")
+  }
+```
+
+A **tagless switch** is a switch which case contains a boolean expression to evaluate. First `true` case is executed:
+
+```go
+  switch {
+    case x>1:
+      fmt.Printf("case 1")
+    case x<-1
+      fmt.Printf("case 2")
+    default:
+      fmt.Printf("no case)
+  }
+```
+
+#### Scan
+
+The **Scan** reads the user input. It takes a pointer as an argument, waits for the user input, writes it to the pointer and returns the number of scanned items followed by a `null` or `error`:
+
+```go
+var appleCount int
+
+ftm.Printf("Number of apples?")
+num, err := fmt.Scan(&appleCount) // the code will stop until the user input something and hits enter
+
+fmt.Printf(appleCount)
+```
