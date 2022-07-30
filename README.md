@@ -301,7 +301,7 @@ Control flow changes for a lot of reasons but the first one is because the progr
 - **_break_** exits the containing loop, and **_continue_** skips the rest of the current iteration:
 
 ```go
-i := 0
+  i := 0
   for i<10 {
     i++
     if i == 3 { continue }
@@ -341,10 +341,10 @@ A **tagless switch** is a switch which case contains a boolean expression to eva
 The **Scan** reads the user input. It takes a pointer as an argument, waits for the user input, writes it to the pointer and returns the number of scanned items followed by a `null` or `error`:
 
 ```go
-var appleCount int
+  var appleCount int
 
-ftm.Printf("Number of apples?")
-num, err := fmt.Scan(&appleCount) // the code will stop until the user input something and hits enter
+  ftm.Printf("Number of apples?")
+  num, err := fmt.Scan(&appleCount) // the code will stop until the user input something and hits enter
 
-fmt.Printf(appleCount)
+  fmt.Printf(appleCount)
 ```
